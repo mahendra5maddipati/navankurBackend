@@ -1,4 +1,3 @@
-// filepath: e:\next wave\mock test\navankurAssignment\navankuraBackend\controllers\authController.js
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -86,4 +85,18 @@ const logout = async (req, res) => {
   }
 };
 
-module.exports = { register, login, logout };
+const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) {
+      logger.warn("User not found", { userId: req.user.id });
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (err) {
+    logger.error("Server error during fetching profile", { error: err.message });
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = { register, login, logout, getProfile };
