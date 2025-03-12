@@ -3,7 +3,7 @@ const redisClient = require("../config/redis");
 const logger = require("../config/logger");
 
 const authenticateUser = async (req, res, next) => {
-  const token = req.header("Authorization").replace("Bearer ", "");
+  const token = req.header("Authorization")?.replace("Bearer ", "");
   if (!token) {
     logger.warn("No token, authorization denied");
     return res.status(401).json({ message: "No token, authorization denied" });
