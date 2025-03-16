@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const logger = require("../config/logger");
 
 const sendResetEmail = async (email, token) => {
   const transporter = nodemailer.createTransport({
@@ -16,7 +17,13 @@ const sendResetEmail = async (email, token) => {
     text: `You requested a password reset. Click the link to reset your password: ${process.env.CLIENT_URL}/reset-password/${token}`,
   };
 
-  await transporter.sendMail(mailOptions);
+  try {
+    await transporter.sendMail(mailOptions);
+    logger.info("Password reset email sent", { email });
+  } catch (err) {
+    logger.error("Error sending password reset email", { error: err.message });
+    throw new Error("Error sending password reset email");
+  }
 };
 
 const requestPasswordReset = async (req, res) => {
