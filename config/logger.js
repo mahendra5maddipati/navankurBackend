@@ -1,4 +1,4 @@
-// filepath: e:\next wave\mock test\navankurAssignment\navankuraBackend\config\logger.js
+require('dotenv').config();
 const winston = require("winston");
 
 const logger = winston.createLogger({
