@@ -52,4 +52,4 @@ const resetPassword = async (req, res) => {
   }
 };
 
-module.exports = { register, login, logout, requestPasswordReset, resetPassword };
+module.exports = { sendResetEmail, requestPasswordReset, resetPassword };
